@@ -96,26 +96,39 @@ class SortingRobot:
 
     def sort(self):
 
-        self.swap_item()
-        print('curr item', self._item)
+        # start by turning on the light
+        while self.light_is_on() == False:
+            self.set_light_on()
 
-        # if self.compare_item() == 0:
-        #     return 0
+            # if possible, go right, pickup and move right to compare
+            while self.can_move_right():
+                self.swap_item()
+                self.move_right()
+                print('item', self._item)
+                print('position', self._position)
+                # print('list', self._list)
 
-        # if self.compare_item() is None:
+                # compare, if held >, then go back left and swap
+                if self.compare_item() == 1:
+                    self.swap_item()
+                    self.move_left()
+                    self.swap_item()
+                    # go back right and turn off light
+                    self.move_right()
+                    self.set_light_off()
+                    print('item', self._item)
+                    print('position', self._position)
+                    # print('list', self._list)
+                # compare if held <= then put back where it was
+                else:
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
 
-        # else:
-        #     if self.can_move_right():
-        #         print
-        #         self.move_right()
-        #         if self.compare_item() == 1:
-        #             self.swap_item()
-        #             self.move_left()
-        #             self.swap_item()
-        #             self.move_right()
-        #             # self.move_right()
-        #             print(self.compare_item())
-        # self.sort()
+            # move all the way to position 0 and start over
+            while self.can_move_left():
+                self.move_left()
+
         return self._list
 
 
